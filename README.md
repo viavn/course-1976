@@ -8,7 +8,7 @@ Project from course 1976, balta.io.
 
 ## Authors
 
-- **Vinícius Avansini** - [PurpleBooth](https://github.com/viavn)
+- **Vinícius Avansini** - [GitHub](https://github.com/viavn)
 
 ## License
 
