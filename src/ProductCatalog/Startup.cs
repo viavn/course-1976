@@ -22,6 +22,18 @@ namespace ProductCatalog
         {
             services.AddDbContext<StoreDataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+
+                    options.SuppressConsumesConstraintForFormFileParameters = true;
+                    options.SuppressInferBindingSourcesForParameters = true;
+                    options.SuppressModelStateInvalidFilter = true;
+                    options.SuppressMapClientErrors = true;
+                    options.ClientErrorMapping[404].Link =
+                        "https://httpstatuses.com/404";
+                }); ;
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
