@@ -15,17 +15,10 @@ namespace ProductCatalog.Controllers
     [Route("api/v1/products")]
     public class ProductController : ControllerBase
     {
-        private readonly StoreDataContext _context;
-
-        public ProductController(StoreDataContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet]
-        public async Task<IEnumerable<ListProductViewModel>> GetProducts()
+        public async Task<ActionResult<List<ListProductViewModel>>> GetProducts([FromServices] StoreDataContext _context)
         {
-            return await _context.Products
+            var products = await _context.Products
                 .Include(x => x.Category)
                 .Select(x => new ListProductViewModel
                 {
@@ -36,16 +29,21 @@ namespace ProductCatalog.Controllers
                 })
                 .AsNoTracking()
                 .ToListAsync();
+
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public async Task<Product> GetProduct(int id)
+        public async Task<ActionResult<Product>> GetProduct([FromServices] StoreDataContext _context, int id)
         {
-            return await _context.Products.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync();
+            var product = await _context.Products.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync();
+            return Ok(product);
         }
 
         [HttpPost]
-        public async Task<ResultViewModel> PostProduct([FromBody]EditorProductViewModel model)
+        public async Task<ActionResult<ResultViewModel>> PostProduct(
+            [FromServices] StoreDataContext _context,
+            [FromBody] EditorProductViewModel model)
         {
             var product = new Product
             {
@@ -62,16 +60,20 @@ namespace ProductCatalog.Controllers
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
 
-            return new ResultViewModel
+            var result = new ResultViewModel
             {
                 Success = true,
                 Message = "Produto cadastrado com sucesso!",
                 Data = product
             };
+
+            return CreatedAtAction(nameof(PostProduct), result);
         }
 
         [HttpPut]
-        public async Task<ResultViewModel> PutProduct([FromBody]EditorProductViewModel model)
+        public async Task<ActionResult<ResultViewModel>> PutProduct(
+            [FromServices] StoreDataContext _context,
+            [FromBody] EditorProductViewModel model)
         {
             var product = await _context.Products.FindAsync(model.Id);
 
@@ -86,12 +88,14 @@ namespace ProductCatalog.Controllers
             _context.Entry<Product>(product).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return new ResultViewModel
+            var result = new ResultViewModel
             {
                 Success = true,
                 Message = "Produto alterado com sucesso!",
                 Data = product
             };
+
+            return CreatedAtAction(nameof(PutProduct), result);
         }
     }
 }
