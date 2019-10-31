@@ -12,33 +12,31 @@ namespace ProductCatalog.Controllers
     [Route("api/v1/categories")]
     public class CategoryController : ControllerBase
     {
-        private readonly StoreDataContext _context;
-
-        public CategoryController(StoreDataContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet]
-        public async Task<IEnumerable<Category>> GetCategory()
+        public async Task<ActionResult<List<Category>>> GetCategory([FromServices] StoreDataContext _context)
         {
-            return await _context.Categories.AsNoTracking().ToListAsync();
+            var categories = await _context.Categories.AsNoTracking().ToListAsync();
+            return Ok(categories);
         }
 
-        [HttpGet("{id}")]
-        public async Task<Category> GetCategory(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Category>> GetCategory([FromServices] StoreDataContext _context, int id)
         {
-            return await _context.Categories.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync();
+            var category = await _context.Categories.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync();
+            return Ok(category);
         }
 
-        [HttpGet("{id}/products")]
-        public async Task<IEnumerable<Product>> GetProducts(int id)
+        [HttpGet("{id:int}/products")]
+        public async Task<ActionResult<List<Product>>> GetProducts([FromServices] StoreDataContext _context, int id)
         {
-            return await _context.Products.AsNoTracking().Where(x => x.Category.Id == id).ToListAsync();
+            var products = await _context.Products.AsNoTracking().Where(x => x.Category.Id == id).ToListAsync();
+            return Ok(products);
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostCategory([FromBody]Category category)
+        public async Task<ActionResult> PostCategory(
+            [FromServices] StoreDataContext _context,
+            [FromBody] Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -52,7 +50,9 @@ namespace ProductCatalog.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> PutCategory([FromBody]Category category)
+        public async Task<ActionResult> PutCategory(
+            [FromServices] StoreDataContext _context,
+            [FromBody] Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +66,9 @@ namespace ProductCatalog.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteCategory([FromBody]Category category)
+        public async Task<ActionResult> DeleteCategory(
+            [FromServices] StoreDataContext _context,
+            [FromBody] Category category)
         {
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
