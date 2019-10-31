@@ -1,6 +1,7 @@
-# Developing APIs with ASP.NET Core and EF Core
+# Developing APIs with ASP.NET Core and EF Core and
+# Developing APIs with ASP.NET Core and Dapper
 
-Project from course 1976, balta.io.
+Project for courses 1974 and 1976 from balta.io.
 
 ## Built With
 
