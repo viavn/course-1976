@@ -28,7 +28,28 @@ namespace Store.Tests
             );
             c.AddAddress(address);
 
+            var mouse = new Product("Mouse", "Rato", "image.png", 59.90M, 10);
+            var teclado = new Product("Teclado", "Teclado", "image.png", 159.90M, 11);
+            var impressora = new Product("Impressora", "Impressora", "image.png", 559.90M, 5);
+            var cadeira = new Product("Cadeira", "Cadeira", "image.png", 129.90M, 50);
+
             var order = new Order(c);
+            // order.AddItem(new OrderItem(mouse, 5));
+            // order.AddItem(new OrderItem(teclado, 5));
+            // order.AddItem(new OrderItem(impressora, 5));
+            // order.AddItem(new OrderItem(cadeira, 5));
+
+            // Realizei o pedido
+            order.Place();
+
+            // Simular o pagamento
+            order.Pay();
+
+            // Simular envio
+            order.Ship();
+
+            // Simular o cancelamento
+            order.Cancel();
         }
     }
 }
