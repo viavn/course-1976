@@ -10,12 +10,13 @@ namespace Store.Domain.StoreContext.ValueObjects
             FirstName = firstName;
             LastName = lastName;
 
-            new ValidationContract()
+            AddNotifications(new ValidationContract()
                 .Requires()
                 .HasMinLen(FirstName, 3, "FirstName", "O nome deve conter pelo menos 3 caractéres")
                 .HasMaxLen(FirstName, 40, "FirstName", "O nome deve conter no máximo 40 caractéres")
                 .HasMinLen(LastName, 3, "LastName", "O sobrenome deve conter pelo menos 3 caractéres")
-                .HasMaxLen(LastName, 40, "LastName", "O sobrenome deve conter no máximo 40 caractéres");
+                .HasMaxLen(LastName, 40, "LastName", "O sobrenome deve conter no máximo 40 caractéres")
+            );
         }
 
         public string FirstName { get; private set; }

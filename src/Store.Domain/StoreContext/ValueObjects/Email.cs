@@ -9,9 +9,10 @@ namespace Store.Domain.StoreContext.ValueObjects
         {
             Address = address;
 
-            new ValidationContract()
+            AddNotifications(new ValidationContract()
                 .Requires()
-                .IsEmail(Address, "Address", "O e-mail é inválido.");
+                .IsEmail(Address, "Address", "O e-mail é inválido.")
+            );
         }
 
         public string Address { get; private set; }
