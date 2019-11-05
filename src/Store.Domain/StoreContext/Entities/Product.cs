@@ -1,8 +1,8 @@
-using FluentValidator;
+using Store.Shared.Entities;
 
 namespace Store.Domain.StoreContext.Entities
 {
-    public class Product : Notifiable
+    public class Product : Entity
     {
         public Product(string title, string description, string image, decimal price, decimal quantityOnHand)
         {
@@ -18,7 +18,6 @@ namespace Store.Domain.StoreContext.Entities
         public string Image { get; private set; }
         public decimal Price { get; private set; }
         public decimal QuantityOnHand { get; private set; }
-
 
         public override string ToString() => Title;
         public void DecreaseQuantity(decimal quantity) => QuantityOnHand -= quantity;

@@ -1,8 +1,8 @@
-using FluentValidator;
+using Store.Shared.Entities;
 
 namespace Store.Domain.StoreContext.Entities
 {
-    public class OrderItem : Notifiable
+    public class OrderItem : Entity
     {
         public OrderItem(Product product, decimal quantity)
         {
