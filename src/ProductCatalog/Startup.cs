@@ -34,7 +34,7 @@ namespace ProductCatalog
                     options.SuppressMapClientErrors = true;
                     options.ClientErrorMapping[404].Link =
                         "https://httpstatuses.com/404";
-                }); ;
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
