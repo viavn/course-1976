@@ -1,10 +1,10 @@
 using Store.Shared.Commands;
 
-namespace Store.Domain.StoreContext.CustomerCommands.Outputs
+namespace Store.Domain.StoreContext.CustomerCommands.Inputs
 {
-    public class CreateCustomerCommandResult : ICommandResult
+    public class CommandResult : ICommandResult
     {
-        public CreateCustomerCommandResult(bool success, string message, object data)
+        public CommandResult(bool success, string message, object data)
         {
             Success = success;
             Message = message;
