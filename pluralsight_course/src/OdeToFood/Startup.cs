@@ -14,7 +14,6 @@ namespace OdeToFood
             Configuration = configuration;
         }
 
-        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
