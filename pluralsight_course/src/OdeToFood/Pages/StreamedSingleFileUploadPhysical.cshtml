@@ -1,0 +1,26 @@
+﻿@page
+@model StreamedSingleFileUploadPhysicalModel
+@{
+    ViewData["Title"] = "Single File Upload (Physical)";
+}
+
+<form enctype="multipart/form-data" method="post">
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+            <div class="custom-file">
+                <input asp-for="FileUpload.FormFile" type="file" />
+                <span class="text-danger" asp-validation-for="FileUpload.FormFile"></span>
+            </div>
+        </div>
+    </div>
+
+    <input asp-page-handler="Upload" class="btn btn-primary" role="button" type="submit" value="Upload" />
+</form>
+
+<p class="result">
+    @Model.Result
+</p>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

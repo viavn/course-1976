@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using OdeToFood.Data;
 
@@ -18,8 +19,12 @@ namespace OdeToFood
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
             services.AddSingleton<IRestaurantData, InMemoryRestaurantData>();
             services.AddRazorPages();
+
+            var physicalProvider = new PhysicalFileProvider(Configuration.GetValue<string>("StoredFilesPath"));
+            services.AddSingleton<IFileProvider>(physicalProvider);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

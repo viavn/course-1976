@@ -1,25 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.FileProviders;
+using System.Net.Mime;
 
 namespace OdeToFood.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly IFileProvider _fileProvider;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(IFileProvider fileProvider)
         {
-            _logger = logger;
+            _fileProvider = fileProvider;
         }
 
-        public void OnGet()
-        {
+        public IDirectoryContents PhysicalFiles { get; private set; }
+        public string Message { get; private set; }
 
+        public void OnGet(string message)
+        {
+            Message = message;
+            PhysicalFiles = _fileProvider.GetDirectoryContents(string.Empty);
+        }
+
+        public IActionResult OnGetDownloadPhysical(string fileName)
+        {
+            var downloadFile = _fileProvider.GetFileInfo(fileName);
+            return PhysicalFile(downloadFile.PhysicalPath, MediaTypeNames.Application.Octet, fileName);
         }
     }
 }

@@ -1,10 +1,60 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Upload Files Sample";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Files stored on disk</h1>
+
+@if(!String.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-info">
+        <p>@Model.Message</p>
+    </div>
+}
+
+@if (Model.PhysicalFiles.Count() == 0)
+{
+    <p>
+        No files are available. Visit one of the file upload scenario pages to upload one or more files.
+    </p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    Name / Path
+                </th>
+                <th>
+                    Size (bytes)
+                </th>
+                <th>
+                    <code>PhysicalFileResult</code> from storage
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.PhysicalFiles)
+            {
+                <tr>
+                    <td>
+                        <a asp-page="./ThumbNail" asp-route-filePath="@file.PhysicalPath">Thumbnail</a>
+                    </td>
+                    <td>
+                        <b>@file.Name</b><br>
+                        @file.PhysicalPath
+                    </td>
+                    <td class="text-center">
+                        @file.Length.ToString("N0")
+                    </td>
+                    <td class="text-center">
+                        <a asp-page-handler="DownloadPhysical" asp-route-fileName="@file.Name">Download</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
