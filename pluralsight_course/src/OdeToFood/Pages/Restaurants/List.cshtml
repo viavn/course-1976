@@ -1,0 +1,68 @@
+﻿@page
+@model OdeToFood.Pages.Restaurants.ListModel
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>Restaurants</h1>
+
+<div class="row">
+    <div class="container_add-and-filter">
+        <div class="container_add-button">
+            <a class="btn btn-dark" asp-page=".\Edit" role="button">Create</a>
+        </div>
+        <div class="container_form_filter">
+            <form method="get">
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input type="search" class="form-control" placeholder="Search for a restaurant..." aria-label="Search for a restaurant..." aria-describedby="button-search"
+                               asp-for="SearchTerm" autocomplete="off">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-search">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Location</th>
+            <th scope="col">Cuisine</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var restaurant in Model.Restaurants)
+        {
+            <tr>
+                <th scope="row">@restaurant.Id</th>
+                <td>@restaurant.Name</td>
+                <td>@restaurant.Location</td>
+                <td>@restaurant.Cuisine</td>
+                <th scope="row">
+                    <div class="grid-buttons">
+                        <a class="btn btn-link btn-sm btn-visualizar" title="Restaurant details"
+                           asp-page="./Detail"
+                           asp-route-restaurantId="@restaurant.Id">
+                            <i class="fas fa-search"></i>
+                        </a>
+
+                        <a class="btn btn-link btn-sm btn-editar" title="Edit restaurant"
+                           asp-page="./Edit"
+                           asp-route-restaurantId="@restaurant.Id">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
